@@ -1,0 +1,41 @@
+{
+  "name": "sample",
+  "version": "1.0.0",
+  "scripts": {
+    "clean": "rimraf dist/{css/*,js/*,images/*}",
+    "build:css": "postcss src/css/main.pcss -o dist/css/main.css --no-map",
+    "build:js": "mkdirp dist/js && browserify -t babelify src/js/main.js | uglifyjs -c -m > dist/js/main.js",
+    "build:images": "imagemin src/images/* -o dist/images",
+    "build": "npm run clean & npm-run-all -p build:*",
+    "watch:css": "postcss src/css/main.pcss -o dist/css/main.css -w",
+    "watch:js": "watchify -t babelify src/js/main.js -o 'uglifyjs -c -m > dist/js/main.js' -v",
+    "watch:images": "onchange 'src/images' -e '**/*.DS_Store' -- npm run build:images",
+    "watch:server": "browser-sync start -s -f 'dist, **/*.html, !node_modules/**/*'",
+    "watch": "npm-run-all -p watch:*",
+    "lint:css": "stylelint src/css/**/*.pcss",
+    "lint:js": "eslint src/js/**/*.js",
+    "postinstall": "npm run build && npm run watch"
+  },
+  "devDependencies": {
+    "babelify": "^7.3.0",
+    "browser-sync": "^2.18.13",
+    "browserify": "^14.4.0",
+    "cssnano": "^3.10.0",
+    "eslint": "^4.3.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "imagemin-cli": "^3.0.0",
+    "mkdirp": "^0.5.1",
+    "npm-run-all": "^4.0.2",
+    "onchange": "^3.2.1",
+    "postcss-cli": "^4.1.0",
+    "postcss-cssnext": "^3.0.2",
+    "postcss-import": "^10.0.0",
+    "rimraf": "^2.6.1",
+    "stylelint": "^8.0.0",
+    "uglify-es": "^3.0.26"
+  }
+}
